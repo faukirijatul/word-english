@@ -51,7 +51,7 @@ export default function WordForm({ wordToEdit, onSubmit, onCancel }) {
         {/* Field English */}
         <div>
           <label className="block text-gray-300 mb-1">English</label>
-          <input
+          <textarea
             type="text"
             {...register('english')}
             className={`w-full px-4 py-2 bg-gray-900 border ${
@@ -67,7 +67,7 @@ export default function WordForm({ wordToEdit, onSubmit, onCancel }) {
         {/* Field Indonesia */}
         <div>
           <label className="block text-gray-300 mb-1">Indonesia</label>
-          <input
+          <textarea
             type="text"
             {...register('indonesia')}
             className={`w-full px-4 py-2 bg-gray-900 border ${
