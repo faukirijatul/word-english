@@ -9,11 +9,18 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 
-
 mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log('Database connected'))
-  .catch((err) => console.log(err));
+  .connect(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+  })
+  .then(() => {
+    console.log('Database connected successfully');
+  })
+  .catch((err) => {
+    console.error('Database connection error:', err.message);
+    console.error('Full error:', err);
+  });
 
 import wordRouter from './routes/word.route.js';
 app.use('/words', wordRouter);
