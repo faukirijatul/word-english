@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import wordSchema from '../schemas/word.schema';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function WordForm({ wordToEdit, onSubmit, onCancel }) {
   const isEditMode = !!wordToEdit;
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm({
     resolver: zodResolver(wordSchema),
@@ -27,9 +28,16 @@ export default function WordForm({ wordToEdit, onSubmit, onCancel }) {
   }, [wordToEdit, reset]);
 
   const onFormSubmit = (data) => {
-    onSubmit(data);
-    if (!isEditMode) {
-      reset();
+    setIsSubmitLoading(true);
+    try {
+      onSubmit(data);
+      if (!isEditMode) {
+        reset();
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsSubmitLoading(false);
     }
   };
 
@@ -84,14 +92,14 @@ export default function WordForm({ wordToEdit, onSubmit, onCancel }) {
       <div className="mt-6 flex gap-4">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitLoading}
           className={`px-6 py-2 rounded-lg font-medium text-white ${
-            isSubmitting
+            isSubmitLoading
               ? 'bg-indigo-400 cursor-not-allowed'
               : 'bg-indigo-600 hover:bg-indigo-700'
           }`}
         >
-          {isEditMode ? 'Update' : 'Simpan'}
+          {!isSubmitLoading ? isEditMode ? 'Update' : 'Simpan' : '...'}
         </button>
 
         {isEditMode && (
