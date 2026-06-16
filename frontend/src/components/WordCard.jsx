@@ -6,7 +6,7 @@ export default function WordCard({ word, onEdit, onDelete }) {
           <h3 className='text-xl font-semibold text-indigo-400'>
             {word.english}
           </h3>
-          <p className='text-gray-300 mt-1'>{word.indonesia}</p>
+          <p className='text-gray-300 mt-1 whitespace-pre-wrap'>{word.indonesia}</p>
         </div>
       </div>
       <div className='flex gap-2 mt-2'>
